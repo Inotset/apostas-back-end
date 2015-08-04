@@ -22,34 +22,42 @@ public class LoginRest {
 
 	@Inject
 	private UsuarioRepository usuarioRepo;
-	
+
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Response login(Credentials credentials, @Context HttpServletRequest req) {
+	public Response login(Credentials credentials,
+			@Context HttpServletRequest req) {
 
 		Usuario usuario = null;
-		
+
 		try {
-			usuario = usuarioRepo.findByEmailandSenha(credentials.getEmail(), credentials.getSenha());
+			usuario = usuarioRepo.findByEmailandSenha(credentials.getEmail(),
+					credentials.getSenha());
 		} catch (Exception e) {
 			return Response.status(Response.Status.BAD_REQUEST)
-					.entity(new Message("Login ou senha invalidos!").toJson()).build();
+					.entity(new Message("Login ou senha invalidos!").toJson())
+					.build();
 		}
-		
+
 		if (usuario.getPassword().equals(credentials.getSenha())) {
 
 			if (usuario.getInativo()) {
-				return Response.status(Response.Status.UNAUTHORIZED)
-						.entity(new Message("O Usuário está inativo e não pode acessar o sistema!").toJson()).build();
+				return Response
+						.status(Response.Status.UNAUTHORIZED)
+						.entity(new Message(
+								"O Usuário está inativo e não pode acessar o sistema!")
+								.toJson()).build();
 			}
 
 			Sessoes sessoes = Sessoes.getInstance();
 			Sessao sessao = new Sessao(usuario, req.getRemoteAddr());
 			sessoes.getHashSessoes().put(sessao.getOid(), sessao);
-			
-			NewCookie userId = new NewCookie("userId", sessao.getUsuario().getOid());
-			NewCookie userName = new NewCookie("userName", sessao.getUsuario().getNome());
+
+			NewCookie userId = new NewCookie("userId", sessao.getUsuario()
+					.getOid());
+			NewCookie userName = new NewCookie("userName", sessao.getUsuario()
+					.getNome());
 			NewCookie sessionId = new NewCookie("sessionId", sessao.getOid());
 
 			Credentials credentialsRetorno = new Credentials();
@@ -58,11 +66,13 @@ public class LoginRest {
 			credentialsRetorno.setNome(sessao.getUsuario().getNome());
 			credentialsRetorno.setAdmin(sessao.getUsuario().getAdmin());
 
-			return Response.ok().cookie(sessionId, userId, userName).entity(credentialsRetorno.toJson()).build();
+			return Response.ok().cookie(sessionId, userId, userName)
+					.entity(credentialsRetorno.toJson()).build();
 		} else {
 			return Response.status(Response.Status.BAD_REQUEST)
-					.entity(new Message("Login e senha invalidos!").toJson()).build();
+					.entity(new Message("Login e senha invalidos!").toJson())
+					.build();
 		}
-		
+
 	}
 }
