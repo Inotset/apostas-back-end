@@ -29,16 +29,12 @@ public class TimeRest {
 	@POST
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response salvarTime(String jsonTime, @QueryParam("imagem") String imagem){
+	public Response salvarTime(String jsonTime){
 		
 		Time time = JsonConverter.fromJson(jsonTime, Time.class);
 		
-		try {
-			time.setImagem(IOUtils.toByteArray(imagem));
-			time = timeService.save(time);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//time.setImagem(IOUtils.toByteArray(time.getImagem()));
+		time = timeService.save(time);
 		
 		return Response.status(Response.Status.CREATED)
 				.entity(JsonConverter.toJson(time)).build();
