@@ -14,5 +14,6 @@ public class UsuarioDTO {
 	public Boolean bloqueado;
 	public Boolean admin;
 	public Boolean inativo;
+	public String imagemTime;
 
 }
