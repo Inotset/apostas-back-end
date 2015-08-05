@@ -45,7 +45,8 @@ public class TimeService extends GenericService {
 				TimeDTO timeDto = new TimeDTO();
 				timeDto.oid = time.getOid();
 				timeDto.nome = time.getNome();
-				timeDto.imagem = ImagemConverter.converterImagemParaString(time.getImagem());
+				// timeDto.imagem = ImagemConverter.converterImagemParaString(time.getImagem());
+				timeDto.imagem = time.getImagem();
 				
 				timesDto.add(timeDto);
 			}

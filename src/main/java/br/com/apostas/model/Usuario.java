@@ -20,9 +20,9 @@ public class Usuario extends GenericEntity {
 
 	@Column(name = "id_inativo")
 	private Boolean inativo;
-	
+
 	private byte[] imagem;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "oid_time")
 	private Time time;
@@ -68,7 +68,7 @@ public class Usuario extends GenericEntity {
 	}
 
 	public Boolean getInativo() {
-		if (inativo == null){
+		if (inativo == null) {
 			return false;
 		}
 		return inativo;
