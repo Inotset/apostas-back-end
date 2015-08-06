@@ -1,4 +1,4 @@
-/*package br.com.apostas.misc;
+package br.com.apostas.misc;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,4 +15,3 @@ public class Token {
 	}
 
 }
-*/

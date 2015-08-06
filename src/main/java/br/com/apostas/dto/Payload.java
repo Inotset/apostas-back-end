@@ -1,4 +1,4 @@
-/*package br.com.apostas.dto;
+package br.com.apostas.dto;
 
 public class Payload {
 	
@@ -33,4 +33,3 @@ public class Payload {
 	}
     
   }
-*/

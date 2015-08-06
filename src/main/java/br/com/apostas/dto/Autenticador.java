@@ -1,4 +1,4 @@
-/*package br.com.apostas.dto;
+package br.com.apostas.dto;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -22,9 +22,9 @@ public class Autenticador {
 			return this.name;
 		}
 
-		public String capitalize() {
+		/*public String capitalize() {
 			return StringUtils.capitalize(this.name);
-		}
+		}*/
 	}
 
 	public String getFacebook() {
@@ -44,4 +44,3 @@ public class Autenticador {
 	}
 
 }
-*/

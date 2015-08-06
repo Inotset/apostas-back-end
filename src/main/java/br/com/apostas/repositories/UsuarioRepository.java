@@ -31,7 +31,7 @@ public class UsuarioRepository extends GenericRepository<Usuario> {
 	}
 	
 	public List<Usuario> getTodosUsuarios(){
-		return getManager().createQuery("SELECT u FROM Usuario u ")
+		return getManager().createQuery("SELECT u FROM Usuario u order by u.nome ASC")
 				.getResultList();
 	}
 }
