@@ -17,7 +17,7 @@ public class TimeRepository extends GenericRepository<Time> {
 	}
 	
 	public List<Time> getTodosTimes(){
-		return getManager().createQuery("SELECT t FROM Time t ")
+		return getManager().createQuery("SELECT t FROM Time t order by t.nome ASC")
 				.getResultList();
 	}
 
