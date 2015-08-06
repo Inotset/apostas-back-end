@@ -13,7 +13,7 @@ public class Time extends GenericEntity {
 	
 	private String nome;
 	
-	private byte[] imagem;
+	private String imagem;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "oid")
@@ -25,10 +25,10 @@ public class Time extends GenericEntity {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public byte[] getImagem() {
+	public String getImagem() {
 		return imagem;
 	}
-	public void setImagem(byte[] imagem) {
+	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
 
