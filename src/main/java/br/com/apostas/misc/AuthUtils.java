@@ -1,4 +1,4 @@
-/*package br.com.apostas.misc;
+package br.com.apostas.misc;
 
 import java.text.ParseException;
 
@@ -52,4 +52,3 @@ public class AuthUtils {
 	}
 
 }
-*/

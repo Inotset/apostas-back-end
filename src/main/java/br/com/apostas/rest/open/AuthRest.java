@@ -13,6 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -37,12 +39,14 @@ import com.nimbusds.jose.JOSEException;
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthRest {
 	
-	@Inject
-	private Autenticador atutenticador;
-
-	private Client client;
-
+	private final Autenticador atutenticador;
+	private final Client client;
 	
+	public AuthRest(final Client client, final Autenticador atutenticador) {
+		this.client = client;
+		this.atutenticador = atutenticador;
+	}
+
 	//private static final String CLIENT_ID_GOOGLE = "136404311847-c1d3bo8alovde2lf6ijg42potlncqlo5.apps.googleusercontent.com";
 	//private static final String CLIENT_SECRET_GOOGLE = "aMkysyPtYkjGvRrJwFS4gbHU";
 	//private static final String REDIRECT_URI_KEY = "http://localhost:9000";
@@ -95,12 +99,12 @@ public class AuthRest {
 			payload.setCode("4/CSqw-dzfJh8jw97QTVHKmtCVPBrpuIzXIf1faTcw7Zk");
 		}
 		
-		accessData.add(AUTH_URI, "https://accounts.google.com/o/oauth2/auth");
-		accessData.add(TOKEN_URI, "https://accounts.google.com/o/oauth2/token");
-		accessData.add(AUTH_PROVIDER, "https://www.googleapis.com/oauth2/v1/certs");
-		accessData.add(CLIENT_SECRET, atutenticador.getGoogle());
-		accessData.add(REDIRECT_URIS, "http://localhost:9000/");
-		accessData.add(JAVASCRIPT_ORIGINS, "http://localhost:9000/");
+		//accessData.add(AUTH_URI, "https://accounts.google.com/o/oauth2/auth");
+		//accessData.add(TOKEN_URI, "https://accounts.google.com/o/oauth2/token");
+		//accessData.add(AUTH_PROVIDER, "https://www.googleapis.com/oauth2/v1/certs");
+		//accessData.add(CLIENT_SECRET, atutenticador.getGoogle());
+		//accessData.add(REDIRECT_URIS, "http://localhost:9000/");
+		//accessData.add(JAVASCRIPT_ORIGINS, "http://localhost:9000/");
 		
 		accessData.add(CLIENT_ID_KEY, payload.getClientId());
 		accessData.add(REDIRECT_URI_KEY, payload.getRedirectUri());
@@ -108,7 +112,11 @@ public class AuthRest {
 		accessData.add(CODE_KEY, payload.getCode());
 		accessData.add(GRANT_TYPE_KEY, AUTH_CODE);
 		
-		response = client.target(accessTokenUrl).request().post(Entity.form(accessData));
+		WebTarget a = client.target(accessTokenUrl);
+		
+		Builder b = a.request();
+		
+		response = b.post(Entity.form(accessData));
 		
 		accessData.clear();
 
@@ -136,44 +144,44 @@ public class AuthRest {
 			final Provider provider, final String id, final String displayName)
 			throws ParseException, JOSEException {
 		
-		final Optional<User> user = dao.findByProvider(provider, id);
+		//final Optional<User> user = dao.findByProvider(provider, id);
 
 		// Step 3a. If user is already signed in then link accounts.
-		User userToSave;
-		final String authHeader = request.getHeader(AuthUtils.AUTH_HEADER_KEY);
-		if (StringUtils.isNotBlank(authHeader)) {
-			if (user.isPresent()) {
-				return Response
-						.status(Status.CONFLICT)
-						.entity(new ErrorMessage(String.format(CONFLICT_MSG,
-								provider.capitalize()))).build();
-			}
+		//User userToSave;
+		//final String authHeader = request.getHeader(AuthUtils.AUTH_HEADER_KEY);
+		//if (StringUtils.isNotBlank(authHeader)) {
+			//if (user.isPresent()) {
+				//return Response
+						//.status(Status.CONFLICT)
+						//.entity(new ErrorMessage(String.format(CONFLICT_MSG,
+								//provider.capitalize()))).build();
+			//}
 
-			final String subject = AuthUtils.getSubject(authHeader);
-			final Optional<User> foundUser = dao.findById(Long
-					.parseLong(subject));
-			if (!foundUser.isPresent()) {
-				return Response.status(Status.NOT_FOUND)
-						.entity(new ErrorMessage(NOT_FOUND_MSG)).build();
-			}
+			//final String subject = AuthUtils.getSubject(authHeader);
+			//final Optional<User> foundUser = dao.findById(Long
+					//.parseLong(subject));
+			//if (!foundUser.isPresent()) {
+				//return Response.status(Status.NOT_FOUND)
+						//.entity(new ErrorMessage(NOT_FOUND_MSG)).build();
+			//}
 
-			userToSave = foundUser.get();
-			userToSave.setProviderId(provider, id);
-			if (userToSave.getDisplayName() == null) {
-				userToSave.setDisplayName(displayName);
-			}
-			userToSave = dao.save(userToSave);
-		} else {
+			//userToSave = foundUser.get();
+			//userToSave.setProviderId(provider, id);
+			//if (userToSave.getDisplayName() == null) {
+				//userToSave.setDisplayName(displayName);
+			//}
+			//userToSave = dao.save(userToSave);
+		//} else {
 			// Step 3b. Create a new user account or return an existing one.
-			if (user.isPresent()) {
-				userToSave = user.get();
-			} else {
-				userToSave = new User();
-				userToSave.setProviderId(provider, id);
-				userToSave.setDisplayName(displayName);
-				userToSave = dao.save(userToSave);
-			}
-		}
+			//if (user.isPresent()) {
+				//userToSave = user.get();
+			//} else {
+				//userToSave = new User();
+				//userToSave.setProviderId(provider, id);
+				//userToSave.setDisplayName(displayName);
+				//userToSave = dao.save(userToSave);
+			//}
+		//}
 		
 		long testeGetOidUser = 165165;
 
@@ -181,5 +189,4 @@ public class AuthRest {
 		return Response.ok().entity(token).build();
 	}
 
-}
-*/
+}*/
