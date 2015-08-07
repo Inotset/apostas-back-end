@@ -32,9 +32,7 @@ public class TimeRest {
 		Time time = JsonConverter.fromJson(jsonTime, Time.class);
 		time = timeService.save(time);
 		
-		return Response.status(Response.Status.CREATED)
-				.entity(JsonConverter.toJson(time)).build();
-		
+		return Response.status(Response.Status.CREATED).entity(JsonConverter.toJson(time)).build();
 	}
 	
 	@DELETE
