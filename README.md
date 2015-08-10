@@ -15,7 +15,7 @@ CREATE TABLE usuario
   dt_alteracao timestamp without time zone,
   dt_criacao timestamp without time zone,
   version bigint,
-  imagem bytea,
+  imagem character varying,
   oid_time character varying(38),
   CONSTRAINT usuario_pkey PRIMARY KEY (oid)
 )
@@ -24,7 +24,7 @@ CREATE TABLE torneio
 (
   oid character varying(38) NOT NULL,
   nome character varying(60),
-  imagem bytea,
+  imagem character varying,
   dt_alteracao timestamp without time zone,
   dt_criacao timestamp without time zone,
   version bigint,
@@ -47,7 +47,7 @@ CREATE TABLE time
 (
   oid character varying(38) NOT NULL,
   nome character varying(60),
-  imagem bytea,
+  imagem character varying,
   dt_alteracao timestamp without time zone,
   dt_criacao timestamp without time zone,
   version bigint,
