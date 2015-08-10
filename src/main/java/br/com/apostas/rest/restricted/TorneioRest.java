@@ -1,19 +1,17 @@
 package br.com.apostas.rest.restricted;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-
-import org.apache.commons.io.IOUtils;
 
 import br.com.apostas.dto.TorneioDTO;
 import br.com.apostas.misc.JsonConverter;
@@ -29,16 +27,10 @@ public class TorneioRest {
 	@POST
 	@Produces("application/json")
 	@Consumes("application/json")
-	public Response salvarTorneio(String jsonTorneio, @QueryParam("imagem") String imagem){
+	public Response salvarTorneio(String jsonTorneio){
 		
 		Torneio torneio = JsonConverter.fromJson(jsonTorneio, Torneio.class);
-		
-		try {
-			torneio.setImagem(IOUtils.toByteArray(imagem));
-			torneio = torneioServices.save(torneio);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		torneio = torneioServices.save(torneio);
 		
 		return Response.status(Response.Status.CREATED)
 				.entity(JsonConverter.toJson(torneio)).build();
@@ -57,6 +49,17 @@ public class TorneioRest {
 					.entity("Não há torneios cadastrados!").build();
 		} else {
 			return Response.ok(JsonConverter.toJson(torneios)).build();
+		}
+	}
+	
+	@DELETE
+	@Path("/{oid}")
+	public Response deletarTime(@PathParam("oid") String oid){
+		try{
+			torneioServices.delete(oid);
+			return Response.status(Response.Status.CREATED).entity("Torneio excluido com sucesso!").build();
+		} catch (Exception erro) {
+			return Response.status(Response.Status.BAD_REQUEST).entity("Erro ao excluir torneio!").build();
 		}
 	}
 
