@@ -7,7 +7,7 @@ public class Torneio extends GenericEntity {
 	
 	private String nome;
 	
-	private byte[] imagem;
+	private String imagem;
 
 	public String getNome() {
 		return nome;
@@ -17,11 +17,11 @@ public class Torneio extends GenericEntity {
 		this.nome = nome;
 	}
 
-	public byte[] getImagem() {
+	public String getImagem() {
 		return imagem;
 	}
 
-	public void setImagem(byte[] imagem) {
+	public void setImagem(String imagem) {
 		this.imagem = imagem;
 	}
 

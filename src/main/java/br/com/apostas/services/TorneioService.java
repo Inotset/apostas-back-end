@@ -12,7 +12,6 @@ import javax.ejb.TransactionManagement;
 import javax.inject.Inject;
 
 import br.com.apostas.dto.TorneioDTO;
-import br.com.apostas.misc.ImagemConverter;
 import br.com.apostas.model.Torneio;
 import br.com.apostas.repositories.TorneioRepository;
 
@@ -45,13 +44,24 @@ public class TorneioService extends GenericService {
 				TorneioDTO torneioDto = new TorneioDTO();
 				torneioDto.oid = torneio.getOid();
 				torneioDto.nome = torneio.getNome();
-				torneioDto.imagem = ImagemConverter.converterImagemParaString(torneio.getImagem());
+				// torneioDto.imagem = ImagemConverter.converterImagemParaString(torneio.getImagem());
+				torneioDto.imagem = torneio.getImagem();
 				
 				torneiosDto.add(torneioDto);
 			}
 		}
-		
 		return torneiosDto;
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void delete(String oidTorneio) {
+		try {
+			Torneio torneio = torneioRepository.findByOid(oidTorneio);
+			getManager().remove(torneio);
+		} catch (Exception e) {
+			Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null,
+					e);
+		}
 	}
 
 }
