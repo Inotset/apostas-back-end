@@ -40,30 +40,32 @@ public class RodadaService extends GenericService {
 	public AdicionarPartidaDTO save(AdicionarPartidaDTO partidaDto) {
 
 		try {
-			/*Rodada rodadaBanco = rodadaRepository.findByNumeroRodada(partidaDto.numeroRodada);
-
-			RodadaJogo rodadaJogo = new RodadaJogo();
-
-			if (rodadaBanco != null
-					&& rodadaBanco.getNumero() != partidaDto.numeroRodada) {
+			Rodada rod;
+			Rodada rodadaBanco = rodadaRepository.findByNumeroRodada(partidaDto.numeroRodada);
+			
+			if (rodadaBanco != null && rodadaBanco.getNumero() != partidaDto.numeroRodada) {
 				Rodada rodada = new Rodada();
-				rodada.setNumero(partidaDto.numeroRodada);
+				rodada.setNumero(rodadaRepository.getProximoNumero());
 				rodada.setTorneio(convertTorneio(partidaDto.torneio));
 				getManager().merge(rodada);
 
-				rodadaJogo.setRodada(rodada);
+				rod = rodada;
 			} else {
-				rodadaJogo.setRodada(rodadaBanco);
+				rod = rodadaBanco;
 			}
-
-			Jogo jogo = new Jogo();
-			jogo.setTime1(convertTime(partidaDto.timeA));
-			jogo.setTime2(convertTime(partidaDto.timeB));
-			jogo.setDataJogo(partidaDto.dataPartida);
-			getManager().merge(jogo);
-
-			rodadaJogo.setJogo(jogo);
-			getManager().merge(rodadaJogo);*/
+			
+			for (PartidaDTO partid : partidaDto.partidas) {
+				Jogo jogo = new Jogo();
+				jogo.setTime1(convertTime(partid.timeA));
+				jogo.setTime2(convertTime(partid.timeB));
+				jogo.setDataJogo(partid.dataPartida);
+				getManager().merge(jogo);
+				
+				RodadaJogo rodadaJogo = new RodadaJogo();
+				rodadaJogo.setJogo(jogo);
+				rodadaJogo.setRodada(rod);
+				getManager().merge(rodadaJogo);
+			}
 
 			return partidaDto;
 		} catch (Exception e) {

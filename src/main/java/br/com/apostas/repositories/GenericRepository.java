@@ -3,6 +3,7 @@ package br.com.apostas.repositories;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import br.com.apostas.model.GenericEntity;
 
@@ -48,4 +49,16 @@ public class GenericRepository<T extends GenericEntity> {
 		}
     	return sbReturn;
 	}
+    
+    public Integer getProximoNumero() {
+    	Integer numero;
+    	try {    		
+    		Query q = getManager().createQuery("select c.numero from " + clazz.getSimpleName() +" c where c.numero IS NOT NULL order by c.numero DESC").setMaxResults(1);
+    		numero = (Integer) q.getSingleResult();
+    		numero += 1; 
+		} catch (Exception e) {
+			numero = 1;
+		}
+    	return numero;
+    }
 }

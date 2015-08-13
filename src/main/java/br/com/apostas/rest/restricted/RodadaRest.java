@@ -34,8 +34,8 @@ public class RodadaRest {
 	
 	@GET
 	@Produces("application/json")
-	@Path("/{oidRodada}")
-	public Response getDadosRodada(@PathParam("oidRodada") String oidRodada){
+	@Path("/{oid}")
+	public Response getDadosRodada(@PathParam("oid") String oidRodada){
 		AdicionarPartidaDTO partidaDto = rodadaService.getDadosRodada(oidRodada);
 		return Response.ok(JsonConverter.toJson(partidaDto)).build();
 	}
