@@ -3,8 +3,10 @@ package br.com.apostas.rest.restricted;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -28,6 +30,14 @@ public class RodadaRest {
 		
 		return Response.status(Response.Status.CREATED).entity(JsonConverter.toJson(partidaDto)).build();
 		
+	}
+	
+	@GET
+	@Produces("application/json")
+	@Path("/{oidRodada}")
+	public Response getDadosRodada(@PathParam("oidRodada") String oidRodada){
+		AdicionarPartidaDTO partidaDto = rodadaService.getDadosRodada(oidRodada);
+		return Response.ok(JsonConverter.toJson(partidaDto)).build();
 	}
 
 }

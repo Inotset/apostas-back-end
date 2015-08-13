@@ -1,7 +1,10 @@
 package br.com.apostas.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
 
 @Entity
 public class Jogo extends GenericEntity {
@@ -17,6 +20,26 @@ public class Jogo extends GenericEntity {
 	
 	@Column(name = "placar_time2")
 	private Integer placarTime2;
+	
+	@Column(name = "data_jogo", updatable = false)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Date dataJogo;
+
+	public Date getDataJogo() {
+		return dataJogo;
+	}
+
+	public void setDataJogo(Date dataJogo) {
+		this.dataJogo = dataJogo;
+	}
+
+	public Date getAlteracao() {
+		return alteracao;
+	}
+
+	public void setAlteracao(Date alteracao) {
+		this.alteracao = alteracao;
+	}
 
 	public Time getTime1() {
 		return time1;

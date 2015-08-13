@@ -1,13 +1,12 @@
 package br.com.apostas.dto;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdicionarPartidaDTO {
 	
 	public Integer numeroRodada;
 	public TorneioDTO torneio;
-	public Date dataPartida;
-	public TimeDTO timeA;
-	public TimeDTO timeB;
+	public List<PartidaDTO> partidas = new ArrayList<>();
 
 }
